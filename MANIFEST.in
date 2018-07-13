@@ -1,0 +1,2 @@
+recursive-include sphinx_lua/templates *.rst
+
