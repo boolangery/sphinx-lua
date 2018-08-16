@@ -1,11 +1,21 @@
 
+{{ model.usage }}
+
 .. lua:class:: {{ name }}
 
-   {% for function in model.methods -%}
-    .. lua:method:: {{ function.name }}({% include "param_list.rst" %})
+    {{ model.desc|indent(4) }}
 
-        {{ function.short_desc }}
-        {{ function.desc }}
+    {% for function in model.methods -%}
+    .. lua:method:: {{ function.name }}({% include "param_list.rst" %})
+        {% if function.is_virtual %}:virtual:{% endif %}
+        {% if function.is_abstract %}:abstract:{% endif %}
+        {% if function.is_deprecated %}:deprecated:{% endif %}
+
+        {{ function.short_desc|indent(8) }}
+
+        {{ function.desc|indent(8) }}
+
+        {{ function.usage|indent(8) }}
 
         {% for param in function.params -%}
         {% with model=param %}
@@ -20,4 +30,4 @@
         {% endwith %}
         {%- endfor %}
 
-   {% endfor %}
+    {% endfor %}
