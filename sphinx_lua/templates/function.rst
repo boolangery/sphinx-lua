@@ -1,6 +1,6 @@
 {% import 'common.rst' as common %}
 
-.. js:function:: {{ name }}{{ params }}
+.. lua:function:: {{ name }}{{ params }}
 
    {{ common.deprecated(deprecated)|indent(3) }}
 

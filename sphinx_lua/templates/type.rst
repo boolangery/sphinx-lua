@@ -1,23 +1,23 @@
-{%- if param.type.type == 1 -%}
-    {{ param.type.name_if_custom }}
+{%- if model.type.type == 1 -%}
+    {{ model.type.name_if_custom }}
 {%- else %}
-{%- if param.type.type == 0 -%}
+{%- if model.type.type == 0 -%}
     unknow
-{%- elif param.type.type == 2 -%}
+{%- elif model.type.type == 2 -%}
     string
-{%- elif tparam.ype.type == 3 -%}
+{%- elif model.type.type == 3 -%}
     number
-{%- elif param.type.type == 4 -%}
+{%- elif model.type.type == 4 -%}
     integer
-{%- elif param.type.type == 5 -%}
+{%- elif model.type.type == 5 -%}
     float
-{%- elif param.type.type == 6 -%}
+{%- elif model.type.type == 6 -%}
     boolean
-{%- elif param.type.type == 7 -%}
+{%- elif model.type.type == 7 -%}
     function
-{%- elif param.type.type == 8 -%}
+{%- elif model.type.type == 8 -%}
     table
-{%- elif param.type.type == 9 -%}
+{%- elif model.type.type == 9 -%}
     userdata
 {%- endif -%}
 {%- endif -%}

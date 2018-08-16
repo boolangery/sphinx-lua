@@ -12,7 +12,7 @@
 **Examples:**
 
 {% for example in items -%}
-.. code-block:: js
+.. code-block:: lua
 
    {{ example|indent(3) }}
 {% endfor %}
