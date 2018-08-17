@@ -1,11 +1,10 @@
-
-{{ model.usage }}
-
 .. lua:class:: {{ name }}
 
     {{ model.desc|indent(4) }}
+    {{ model.usage|indent(4) }}
 
     {% for function in model.methods -%}
+    {% if function.visibility != 2 %}
     .. lua:method:: {{ function.name }}({% include "param_list.rst" %})
         {% if function.is_virtual %}:virtual:{% endif -%}
         {% if function.is_abstract %}:abstract:{% endif -%}
@@ -29,5 +28,5 @@
         :rtype: {% include "type.rst" %}
         {% endwith %}
         {%- endfor %}
-
+    {% endif %}
     {% endfor %}
