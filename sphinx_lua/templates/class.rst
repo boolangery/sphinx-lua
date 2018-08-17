@@ -7,8 +7,8 @@
 
     {% for function in model.methods -%}
     .. lua:method:: {{ function.name }}({% include "param_list.rst" %})
-        {% if function.is_virtual %}:virtual:{% endif %}
-        {% if function.is_abstract %}:abstract:{% endif %}
+        {% if function.is_virtual %}:virtual:{% endif -%}
+        {% if function.is_abstract %}:abstract:{% endif -%}
         {% if function.is_deprecated %}:deprecated:{% endif %}
 
         {{ function.short_desc|indent(8) }}
@@ -25,7 +25,7 @@
 
         {% for return in function.returns -%}
         {% with model=return %}
-        :return: {{ return.name }}: {{ return.desc }}
+        :return: {{ return.desc }}
         :rtype: {% include "type.rst" %}
         {% endwith %}
         {%- endfor %}
