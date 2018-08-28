@@ -11,7 +11,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='sphinx-lua',
-    version='2.5',
+    version='1.0.0',
     description='Support for using Sphinx on Luadoc-documented Lua code',
     long_description=open('README.rst', 'r', encoding='utf8').read(),
     author='Eliott Dumeix',
