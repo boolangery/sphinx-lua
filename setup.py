@@ -29,7 +29,7 @@ setup(
     install_requires=[
         'Jinja2>2.0,<3.0',
         'Sphinx<2.0',
-        'luadoc<1.0',
+        'luadoc',
         'sphinxcontrib-luadomain==1.0.0'
         ],
     classifiers=[
