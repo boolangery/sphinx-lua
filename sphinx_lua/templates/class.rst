@@ -14,7 +14,12 @@
 
         {{ function.desc|indent(8) }}
 
-        {{ function.usage|indent(8) }}
+        {% if function.usage %}
+        .. code-block:: lua
+           :linenos:
+
+           {{ function.usage|indent(12) }}
+        {% endif %}
 
         {% for param in function.params -%}
         {% with model=param %}
