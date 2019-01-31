@@ -23,7 +23,8 @@
 
         {% for param in function.params -%}
         {% with model=param %}
-        :param {% include "type.rst" %} {{ param.name }}: {{ param.desc }}
+        :param {{ param.name }}: {{ param.desc }}
+        :type {{ param.name }}: {% include "type.rst" %}
         {% endwith %}
         {%- endfor %}
 
