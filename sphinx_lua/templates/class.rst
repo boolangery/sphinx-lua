@@ -23,8 +23,13 @@
 
         {% for param in function.params -%}
         {% with model=param %}
+        {% if param.name == "..." %}
+        :param vararg: {{ param.desc }}
+        :type {{ param.name }}: {% include "type.rst" %}
+        {% else %}
         :param {{ param.name }}: {{ param.desc }}
         :type {{ param.name }}: {% include "type.rst" %}
+        {% endif %}
         {% endwith %}
         {%- endfor %}
 
