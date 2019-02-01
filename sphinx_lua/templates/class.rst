@@ -22,7 +22,7 @@
         {% endif %}
 
         {% for param in function.params -%}
-        {% with model=param %}
+        {% with type=param.type %}
         {% if param.name == "..." %}
         :param vararg: {{ param.desc }}
         :type {{ param.name }}: {% include "type.rst" %}
@@ -34,7 +34,7 @@
         {%- endfor %}
 
         {% for return in function.returns -%}
-        {% with model=return %}
+        {% with type=return.type %}
         :return: {{ return.desc }}
         :rtype: {% include "type.rst" %}
         {% endwith %}

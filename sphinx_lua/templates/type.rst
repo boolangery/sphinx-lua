@@ -1,23 +1,27 @@
-{%- if model.type.type == 1 -%}
-    {{ model.type.name_if_custom }}
-{%- else %}
-{%- if model.type.type == 0 -%}
-    unknow
-{%- elif model.type.type == 2 -%}
-    string
-{%- elif model.type.type == 3 -%}
-    number
-{%- elif model.type.type == 4 -%}
-    integer
-{%- elif model.type.type == 5 -%}
-    float
-{%- elif model.type.type == 6 -%}
-    boolean
-{%- elif model.type.type == 7 -%}
-    function
-{%- elif model.type.type == 8 -%}
-    table
-{%- elif model.type.type == 9 -%}
+{%- if type.id == "userdata" -%}
     userdata
-{%- endif -%}
+{%- elif type.id == "any" -%}
+    any
+{%- elif type.id == "thread" -%}
+    thread
+{%- elif type.id == "boolean" -%}
+    boolean
+{%- elif type.id == "table" -%}
+    table
+{%- elif type.id == "function" -%}
+    function
+{%- elif type.id == "number" -%}
+    number
+{%- elif type.id == "string" -%}
+    str
+{%- elif type.id == "custom" -%}
+    {{ type.name }}
+{%- elif type.id == "or" -%}
+{% for type in type.types -%}
+{% include "type.rst" %}{{ " or " if not loop.last }}
+{%- endfor %}
+{%- elif type.id == "dict" -%}
+    dict[{% with type=type.key_type %}{% include "type.rst" %}{% endwith %}, {% with type=type.value_type %}{% include "type.rst" %}{% endwith %}]
+{%- elif type.id == "array" -%}
+    list[{% with type=type.type %}{% include "type.rst" %}{% endwith %}]
 {%- endif -%}
