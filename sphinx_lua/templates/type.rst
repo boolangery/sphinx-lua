@@ -14,6 +14,8 @@
     number
 {%- elif type.id == "string" -%}
     str
+{%- elif type.id == "nil" -%}
+    nil
 {%- elif type.id == "custom" -%}
     {{ type.name }}
 {%- elif type.id == "or" -%}
@@ -24,4 +26,9 @@
     dict[{% with type=type.key_type %}{% include "type.rst" %}{% endwith %}, {% with type=type.value_type %}{% include "type.rst" %}{% endwith %}]
 {%- elif type.id == "array" -%}
     list[{% with type=type.type %}{% include "type.rst" %}{% endwith %}]
+{%- elif type.id == "callable" -%}
+    callable(
+    {%- for type in type.arg_types -%}{% include "type.rst" %}{{ ", " if not loop.last }}{%- endfor -%}
+    ):
+    {%- for type in type.return_types -%}{% include "type.rst" %}{{ ", " if not loop.last }}{%- endfor -%}
 {%- endif -%}
