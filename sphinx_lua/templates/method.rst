@@ -1,4 +1,9 @@
-.. lua:method:: {{ method.name }}({% with function=method %}{% include "param_list.rst" %}{% endwith -%})
+{%- if method.is_static -%}
+.. lua:staticmethod::
+{%- else -%}
+.. lua:method::
+{%- endif -%}
+{{ " " + method.name }}({% with function=method %}{% include "param_list.rst" %}{% endwith -%})
 {%- filter indent(width=4) %}
 {% if method.is_virtual -%}
 :virtual:
