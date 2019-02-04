@@ -27,8 +27,11 @@
 {%- elif type.id == "array" -%}
     list[{% with type=type.type %}{% include "type.rst" %}{% endwith %}]
 {%- elif type.id == "callable" -%}
-    callable(
+    fun(
     {%- for type in type.arg_types -%}{% include "type.rst" %}{{ ", " if not loop.last }}{%- endfor -%}
-    ):
+    )
+    {%- if type.return_types -%}
+    :
+    {%- endif -%}
     {%- for type in type.return_types -%}{% include "type.rst" %}{{ ", " if not loop.last }}{%- endfor -%}
 {%- endif -%}
