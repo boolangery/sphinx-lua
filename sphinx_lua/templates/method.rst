@@ -49,7 +49,7 @@
 {% with type=return.type %}
 {%- if return.desc -%}
 :return: {{ return.desc }}
-{%- endif -%}
+{%- endif %}
 :rtype: {% include "type.rst" %}
 {% endwith %}
 {%- endfor %}
