@@ -9,6 +9,14 @@
     {{ model.usage }}
 {%- endif -%}
 
+{# display class field #}
+{%- for field in model.fields -%}
+{%- with type=field.type -%}
+:attribute {{ field.name }}: {{ field.desc }}
+:atttype {{ field.name }}: {% include "type.rst" %}
+{% endwith -%}
+{%- endfor %}
+
 {# display public methods first #}
 {%- for method in model.methods -%}
 {%- if method.visibility == "public" %}
