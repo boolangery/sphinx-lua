@@ -9,10 +9,14 @@
 
 {% if model.desc -%}
     {{ model.desc }}
-{%- endif -%}
+{%- endif %}
+{% if model.usage %}
+**Usage:**
 
-{%- if model.desc -%}
-    {{ model.usage }}
+.. code-block:: lua
+    :linenos:
+
+    {{ model.usage|indent(4) }}
 {%- endif -%}
 
 {# display class field #}
