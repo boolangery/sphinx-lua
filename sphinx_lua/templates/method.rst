@@ -20,18 +20,10 @@
 
 {% if method.short_desc -%}
 {{ method.short_desc }}
-{%- endif -%}
-
+{% endif %}
 {% if method.desc -%}
 {{ method.desc }}
 {%- endif %}
-
-{% if method.usage %}
-.. code-block:: lua
-    :linenos:
-
-    {{ method.usage }}
-{% endif %}
 
 {% for param in method.params -%}
 {%- with type=param.type -%}
@@ -52,5 +44,15 @@
 {%- endif %}
 :rtype: {% include "type.rst" %}
 {% endwith %}
-{%- endfor %}
+{%- endfor -%}
+
+{%- if method.usage %}
+**Usage:**
+
+.. code-block:: lua
+    :linenos:
+
+    {{ method.usage|indent(4) }}
+{% endif %}
+
 {%- endfilter %}
