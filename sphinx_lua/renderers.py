@@ -25,6 +25,7 @@ class LuaRenderer(object):
     parameter list.
 
     """
+
     def __init__(self, directive, app, arguments=None, content=None, options=None):
         # Fix crash when calling eval_rst with CommonMarkParser:
         if not hasattr(directive.state.document.settings, 'tab_width'):
@@ -66,30 +67,7 @@ class LuaRenderer(object):
         Fill in args, docstrings, and info fields from stored LUADoc output.
 
         """
-        lua_class = None
-
-        # lookup for class
-        for module in self._app._sphinxlua_modules:
-            for cls in module.classes:
-                if cls.name == self._partial_path:
-                    lua_class = cls
-                    break
-
-        if not lua_class:
-            raise SphinxError('No LUADoc documentation was found for object "%s" or any path ending with that.'
-                              % self._partial_path)
-
-        rst = self.rst(self._partial_path, lua_class)
-
-        # Parse the RST into docutils nodes with a fresh doc, and return
-        # them.
-        #
-        # Not sure if passing the settings from the "real" doc is the right
-        # thing to do here:
-        doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
-
-        RstParser().parse(rst, doc)
-        return doc.children
+        raise NotImplementedError()
 
     def rst(self, partial_path, model):
         """Return rendered RST about an entity with the given name and doclet."""
@@ -142,6 +120,68 @@ class AutoClassRenderer(LuaRenderer):
             model=model
         )
 
+    def rst_nodes(self):
+        """Render into RST nodes a thing shaped like a function, having a name
+        and arguments.
+
+        Fill in args, docstrings, and info fields from stored LUADoc output.
+
+        """
+        lua_class = None
+
+        # lookup for class
+        for module in self._app._sphinxlua_modules:
+            for cls in module.classes:
+                if cls.name == self._partial_path:
+                    lua_class = cls
+                    break
+
+        if not lua_class:
+            raise SphinxError('No LUADoc documentation was found for object "%s" or any path ending with that.'
+                              % self._partial_path)
+
+        rst = self.rst(self._partial_path, lua_class)
+
+        doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
+
+        RstParser().parse(rst, doc)
+        return doc.children
+
+
+class AutoModuleRenderer(LuaRenderer):
+    _template = 'module.rst'
+
+    def _template_vars(self, name, module):
+        return dict(
+            name=name,
+            module=module
+        )
+
+    def rst_nodes(self):
+        """Render into RST nodes a thing shaped like a function, having a name
+        and arguments.
+
+        Fill in args, docstrings, and info fields from stored LUADoc output.
+
+        """
+        lua_module = None
+
+        # lookup for class
+        for module in self._app._sphinxlua_modules:
+            if module.name == self._partial_path:
+                lua_module = module
+                break
+
+        if not lua_module:
+            raise SphinxError('No LUADoc documentation was found for object "%s" or any path ending with that.'
+                              % self._partial_path)
+
+        rst = self.rst(self._partial_path, lua_module)
+
+        doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
+
+        RstParser().parse(rst, doc)
+        return doc.children
 
 class AutoAttributeRenderer(LuaRenderer):
     _template = 'attribute.rst'

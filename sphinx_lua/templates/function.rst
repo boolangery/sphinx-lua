@@ -1,19 +1,42 @@
-{% import 'common.rst' as common %}
+.. lua:function::
+{{- " " + function.name }}({%- include "param_list.rst" %})
+{%- filter indent(width=4) %}
 
-.. lua:function:: {{ name }}{{ params }}
+{% if function.short_desc -%}
+{{ function.short_desc }}
+{% endif %}
+{% if function.desc -%}
+{{ function.desc }}
+{%- endif %}
 
-   {{ common.deprecated(deprecated)|indent(3) }}
+{% for param in function.params -%}
+{%- with type=param.type -%}
+{%- if param.name == "..." -%}
+:param vararg: {{ param.desc }}
+:type vararg: {% include "type.rst" %}
+{% else -%}
+:param {{ param.name }}: {{ param.desc }}
+:type {{ param.name }}: {% include "type.rst" %}
+{% endif -%}
+{% endwith -%}
+{%- endfor -%}
 
-   {% if description -%}
-     {{ description|indent(3) }}
-   {%- endif %}
+{% for return in function.returns -%}
+{% with type=return.type %}
+{%- if return.desc -%}
+:return: {{ return.desc }}
+{%- endif %}
+:rtype: {% include "type.rst" %}
+{% endwith %}
+{%- endfor -%}
 
-   {% for heads, tail in fields -%}
-     :{{ heads|join(' ') }}: {{ tail }}
-   {% endfor %}
+{%- if function.usage %}
+**Usage:**
 
-   {{ common.examples(examples)|indent(3) }}
+.. code-block:: lua
+    :linenos:
 
-   {{ content|indent(3) }}
+    {{ function.usage|indent(4) }}
+{% endif %}
 
-   {{ common.see_also(see_also)|indent(3) }}
+{%- endfilter %}

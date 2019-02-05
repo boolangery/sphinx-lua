@@ -10,7 +10,7 @@ can access each other and collaborate.
 from docutils.parsers.rst import Directive
 from docutils.parsers.rst.directives import flag
 
-from .renderers import AutoFunctionRenderer, AutoClassRenderer, AutoAttributeRenderer
+from .renderers import AutoFunctionRenderer, AutoClassRenderer, AutoAttributeRenderer, AutoModuleRenderer
 
 
 class LuaDirective(Directive):
@@ -34,6 +34,7 @@ def auto_function_directive_bound_to_app(app):
         optional formal parameter list, all mashed together in a single string.
 
         """
+
         def run(self):
             return AutoFunctionRenderer.from_directive(self, app).rst_nodes()
 
@@ -62,6 +63,26 @@ def auto_class_directive_bound_to_app(app):
     return AutoClassDirective
 
 
+def auto_module_directive_bound_to_app(app):
+    class AutoModuleDirective(LuaDirective):
+        """
+        lua:automodule directive, which spits out some lua:function and lua:class directive
+
+        Takes a single argument which is a LUA module name
+        """
+        option_spec = LuaDirective.option_spec.copy()
+        option_spec.update({
+            'members': lambda members: ([m.strip() for m in members.split(',')]
+                                        if members else []),
+            'exclude-members': _members_to_exclude,
+            'private-members': flag})
+
+        def run(self):
+            return AutoModuleRenderer.from_directive(self, app).rst_nodes()
+
+    return AutoModuleDirective
+
+
 def auto_attribute_directive_bound_to_app(app):
     class AutoAttributeDirective(LuaDirective):
         """lua:autoattribute directive, which spits out a lua:attribute directive
@@ -69,6 +90,7 @@ def auto_attribute_directive_bound_to_app(app):
         Takes a single argument which is a LUA attribute name.
 
         """
+
         def run(self):
             return AutoAttributeRenderer.from_directive(self, app).rst_nodes()
 
