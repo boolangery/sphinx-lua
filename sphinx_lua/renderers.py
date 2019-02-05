@@ -183,18 +183,6 @@ class AutoModuleRenderer(LuaRenderer):
         RstParser().parse(rst, doc)
         return doc.children
 
-class AutoAttributeRenderer(LuaRenderer):
-    _template = 'attribute.rst'
-
-    def _template_vars(self, name, model):
-        return dict(
-            name=name,
-            description=doclet.get('description', ''),
-            deprecated=doclet.get('deprecated', False),
-            see_also=doclet.get('see', []),
-            examples=doclet.get('examples', ''),
-            content='\n'.join(self._content))
-
 
 def _returns_formatter(field, description):
     """Derive heads and tail from ``@returns`` blocks."""

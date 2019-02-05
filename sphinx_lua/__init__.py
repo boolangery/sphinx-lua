@@ -1,6 +1,5 @@
 from .directives import (auto_class_directive_bound_to_app,
                          auto_function_directive_bound_to_app,
-                         auto_attribute_directive_bound_to_app,
                          auto_module_directive_bound_to_app)
 from .luadoc import run_luadoc
 
@@ -22,9 +21,6 @@ def setup(app):
     app.add_directive_to_domain('lua',
                                 'automodule',
                                 auto_module_directive_bound_to_app(app))
-    app.add_directive_to_domain('lua',
-                                'autoattribute',
-                                auto_attribute_directive_bound_to_app(app))
     # TODO: We could add a lua:module with app.add_directive_to_domain().
 
     app.add_config_value('lua_source_path', ['./'], 'env')
