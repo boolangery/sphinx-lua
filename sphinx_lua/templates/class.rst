@@ -8,7 +8,7 @@
 {%- filter indent(width=4) %}
 
 {% if model.desc -%}
-    {{ model.desc }}
+    {{ model.desc | process_link }}
 {%- endif %}
 {% if model.usage %}
 **Usage:**

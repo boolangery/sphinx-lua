@@ -72,8 +72,13 @@ class LuaRenderer(object):
     def rst(self, partial_path, model):
         """Return rendered RST about an entity with the given name and doclet."""
 
+        def process_link(s):
+            """A non-optimal implementation of a regex filter"""
+            return sub(r'@{\s*([\w.]*)\s*}', r':lua:meth:`\1`', s)
+
         # Render to RST using Jinja:
         env = Environment(loader=PackageLoader('sphinx_lua', 'templates'))
+        env.filters['process_link'] = process_link
         template = env.get_template(self._template)
         return template.render(**self._template_vars(partial_path, model))
 

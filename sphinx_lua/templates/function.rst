@@ -3,10 +3,10 @@
 {%- filter indent(width=4) %}
 
 {% if function.short_desc -%}
-{{ function.short_desc }}
+{{ function.short_desc | process_link }}
 {% endif %}
 {% if function.desc -%}
-{{ function.desc }}
+{{ function.desc | process_link }}
 {%- endif %}
 
 {% for param in function.params -%}

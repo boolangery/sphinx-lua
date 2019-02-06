@@ -19,10 +19,10 @@
 {%- endif %}
 
 {% if method.short_desc -%}
-{{ method.short_desc }}
+{{ method.short_desc | process_link }}
 {% endif %}
 {% if method.desc -%}
-{{ method.desc }}
+{{ method.desc | process_link }}
 {%- endif %}
 
 {% for param in method.params -%}
