@@ -7,6 +7,7 @@
 {%- endif %}
 {%- filter indent(width=4) %}
 
+
 {% if model.desc -%}
     {{ model.desc | process_link }}
 {%- endif %}
@@ -22,8 +23,10 @@
 {# display class field #}
 {%- for field in model.fields -%}
 {%- with type=field.type -%}
-:attribute {{ field.name }}: {{ field.desc }}
-:atttype {{ field.name }}: {% include "type.rst" %}
+.. lua:attribute:: {{ field.name }}: {% include "type.rst" %}
+
+    {{ field.desc }}
+
 {% endwith -%}
 {%- endfor %}
 
