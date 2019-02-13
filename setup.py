@@ -18,27 +18,20 @@ setup(
     author_email='eliott.dumeix@gmail.com',
     license='MIT',
     packages=find_packages(exclude=['ez_setup']),
-    tests_require=['nose',
-                   'recommonmark==0.4.0',
-                   # Sphinx's plain-text renderer changes behavior slightly
-                   # with regard to how it emits class names and em dashes from
-                   # time to time:
-                   'Sphinx==1.7.2'],
     test_suite='nose.collector',
     include_package_data=True,
     install_requires=[
         'Jinja2>2.0,<3.0',
-        'Sphinx<2.0',
-        'luadoc',
-        'sphinxcontrib-luadomain'
+        'luadoc>=1.1.0',
+        'sphinxcontrib-luadomain>=1.1.0'
         ],
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Documentation :: Sphinx',
         'Topic :: Software Development :: Documentation'
         ],
