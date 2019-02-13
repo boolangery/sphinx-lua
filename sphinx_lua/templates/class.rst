@@ -18,7 +18,7 @@
     :linenos:
 
     {{ model.usage|indent(4) }}
-{%- endif -%}
+{% endif -%}
 
 {# display class field #}
 {%- for field in model.fields -%}
