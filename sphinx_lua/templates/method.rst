@@ -28,10 +28,10 @@
 {% for param in method.params -%}
 {%- with type=param.type -%}
 {%- if param.name == "..." -%}
-:param vararg: {{ param.desc }}
+:param vararg: {{ param.desc|process_link }}
 :type vararg: {% include "type.rst" %}
 {% else -%}
-:param {{ param.name }}: {{ param.desc }}
+:param {{ param.name }}: {{ param.desc|process_link }}
 :type {{ param.name }}: {% include "type.rst" %}
 {% endif -%}
 {% endwith -%}
