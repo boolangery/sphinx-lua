@@ -21,7 +21,7 @@
 {% endif -%}
 
 {# display class field #}
-{%- for field in model.fields -%}
+{% for field in model.fields -%}
 {%- with type=field.type -%}
 .. lua:attribute:: {{ field.name }}: {% include "type.rst" %}
 
