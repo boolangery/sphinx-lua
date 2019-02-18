@@ -5,6 +5,8 @@
 {{ base }}{{ ", " if not loop.last }}
 {%- endfor -%}
 {%- endif %}
+    {# reset module for single class -#}
+    {% if not module %}:module:{%- endif %}
 {%- filter indent(width=4) %}
 
 
