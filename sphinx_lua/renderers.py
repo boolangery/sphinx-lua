@@ -74,7 +74,7 @@ class LuaRenderer(object):
 
         def process_link(s):
             """A non-optimal implementation of a regex filter"""
-            return sub(r'@{\s*([\w.]*)\s*}', r':lua:meth:`\1`', s)
+            return sub(r'@{\s*([\w.]*)\s*}', r':lua:class:`\1`', s)
 
         # Render to RST using Jinja:
         env = Environment(loader=PackageLoader('sphinx_lua', 'templates'))
