@@ -1,4 +1,4 @@
-.. lua:class:: {{ name }}
+.. lua:class:: {{ model.name }}
 {%- if model.inherits_from -%}
 {{ ": " }}
 {%- for base in model.inherits_from -%}
