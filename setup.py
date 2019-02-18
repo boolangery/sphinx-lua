@@ -23,7 +23,7 @@ setup(
     install_requires=[
         'Jinja2>2.0,<3.0',
         'luadoc>=1.1.1',
-        'sphinxcontrib-luadomain>=1.1.0'
+        'sphinxcontrib-luadomain>=1.1.1'
         ],
     classifiers=[
         'Intended Audience :: Developers',
