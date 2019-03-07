@@ -9,9 +9,11 @@
     {% if not module %}:module:{%- endif %}
 {%- filter indent(width=4) %}
 
-
+{% if model.short_desc -%}
+{{ model.short_desc | process_link }}
+{% endif %}
 {% if model.desc -%}
-    {{ model.desc | process_link }}
+{{ model.desc | process_link }}
 {%- endif %}
 {% if model.usage %}
 **Usage:**
