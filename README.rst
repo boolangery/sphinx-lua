@@ -34,7 +34,47 @@ Add the following to your conf.py:
 
 .. code-block:: python
 
-    extensions = ['sphinx_lua', 'sphinxcontrib.luadomain']
+    extensions = [
+        'sphinx_lua', 
+        'sphinxcontrib.luadomain']
+        
+    # a list of lua source root    
+    lua_source_path = ["../src/lua"]  # default is "./"
+    
+The ``lua_source_path`` configuration value tells to sphinx-lua where to find
+lua source code.
+
+With above configuration, if `main.lua` is located in `../src/lua/main.lua`, and it's content
+is:
+
+.. code-block:: lua
+
+    --- Define a car.
+    --- @class MyOrg.Car
+    local cls = class()
+
+    --- @param foo number
+    function cls:test(foo)
+    end
+
+You can autodoc it in sphinx with the following directive:
+
+.. code-block:: rst
+
+    .. lua:autoclass:: MyOrg.Car
+
+
+Troubleshooting
+-------------------------------------------------------------------------------
+
+Sphinx-lua use the documentation model extracted from luadoc (https://github.com/boolangery/py-lua-doc)
+
+So you can print this model out using the command line tool:
+
+.. code-block:: bash
+
+    $ luadoc ../src/lua/my_problematic_source_file.lua
+
 
 Available sphinx directives
 -------------------------------------------------------------------------------
