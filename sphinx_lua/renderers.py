@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from json import dumps
-from re import sub
+import re
 
 from docutils.parsers.rst import Parser as RstParser
 from docutils.statemachine import StringList
@@ -74,7 +74,7 @@ class LuaRenderer(object):
 
         def process_link(s):
             """A non-optimal implementation of a regex filter"""
-            return sub(r'@{\s*([\w.]*)\s*}', r':lua:class:`\1`', s)
+            return re.sub(r'@{\s*([\w.]*)\s*}', r':lua:class:`\1`', s)
 
         # Render to RST using Jinja:
         env = Environment(loader=PackageLoader('sphinx_lua', 'templates'))
@@ -102,7 +102,7 @@ class LuaRenderer(object):
         for field_name, callback in iteritems(FIELD_TYPES):
             for field in doclet.get(field_name, []):
                 description = field.get('description', '')
-                unwrapped = sub(r'[ \t]*[\r\n]+[ \t]*', ' ', description)
+                unwrapped = re.sub(r'[ \t]*[\r\n]+[ \t]*', ' ', description)
                 yield callback(field, unwrapped)
 
 
@@ -146,7 +146,6 @@ class AutoClassRenderer(LuaRenderer):
                               % self._partial_path)
 
         rst = self.rst(self._partial_path, lua_class)
-
         doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
 
         RstParser().parse(rst, doc)
@@ -182,6 +181,40 @@ class AutoModuleRenderer(LuaRenderer):
                               % self._partial_path)
 
         rst = self.rst(self._partial_path, lua_module)
+        doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
+
+        RstParser().parse(rst, doc)
+        return doc.children
+
+
+class AutoClassSummaryRenderer(LuaRenderer):
+    _template = 'classsummary.rst'
+
+    def _template_vars(self, name, module):
+        return dict(
+            name=name,
+            model=module
+        )
+
+    def rst_nodes(self):
+        """Render into RST nodes a thing shaped like a function, having a name
+        and arguments.
+
+        Fill in args, docstrings, and info fields from stored LUADoc output.
+
+        """
+        pattern = self._partial_path
+
+        lua_classes = []
+
+        # lookup for class
+        for module in self._app._sphinxlua_modules:
+            for cls in module.classes:
+                if re.match(pattern, cls.name):
+                    lua_classes.append(cls)
+
+        rst = self.rst(self._partial_path, lua_classes)
+
 
         doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
 

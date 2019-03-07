@@ -47,6 +47,8 @@ The following directives are available:
 
     .. lua:automodule:: pl.stringx
 
+    .. lua:autoclasssummary:: ^pl.
+
 
 You can also use directove provided by ``sphinxcontrib.luadomain``:
 

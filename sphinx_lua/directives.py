@@ -10,7 +10,7 @@ can access each other and collaborate.
 from docutils.parsers.rst import Directive
 from docutils.parsers.rst.directives import flag
 
-from .renderers import AutoFunctionRenderer, AutoClassRenderer, AutoModuleRenderer
+from .renderers import AutoFunctionRenderer, AutoClassRenderer, AutoModuleRenderer, AutoClassSummaryRenderer
 
 
 class LuaDirective(Directive):
@@ -81,6 +81,25 @@ def auto_module_directive_bound_to_app(app):
             return AutoModuleRenderer.from_directive(self, app).rst_nodes()
 
     return AutoModuleDirective
+
+
+def auto_class_summary_directive_bound_to_app(app):
+    class AutoClassSummaryDirective(LuaDirective):
+        """
+        lua:autoclasssummary directive, which spits out a list of classes
+
+        """
+        option_spec = LuaDirective.option_spec.copy()
+        option_spec.update({
+            'members': lambda members: ([m.strip() for m in members.split(',')]
+                                        if members else []),
+            'exclude-members': _members_to_exclude,
+            'private-members': flag})
+
+        def run(self):
+            return AutoClassSummaryRenderer.from_directive(self, app).rst_nodes()
+
+    return AutoClassSummaryDirective
 
 
 def _members_to_exclude(arg):
