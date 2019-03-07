@@ -50,6 +50,6 @@ The following directives are available:
     .. lua:autoclasssummary:: ^pl.
 
 
-You can also use directove provided by ``sphinxcontrib.luadomain``:
+You can also use directive provided by ``sphinxcontrib.luadomain``:
 
 https://github.com/boolangery/sphinx-luadomain#available-sphinx-directives
