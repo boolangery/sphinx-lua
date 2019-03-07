@@ -20,6 +20,12 @@ Installation
 
     $ pip install sphinx-lua
 
+Dependencies:
+
+    * Jinja2 (to render rst template)
+    * luadoc (to parse lua comments)
+    * sphinxcontrib-luadomain (to add lua domain to sphinx)
+
 
 Sphinx integration
 -------------------------------------------------------------------------------
@@ -28,7 +34,7 @@ Add the following to your conf.py:
 
 .. code-block:: python
 
-    extensions = ['sphinx_lua']
+    extensions = ['sphinx_lua', 'sphinxcontrib.luadomain']
 
 Available sphinx directives
 -------------------------------------------------------------------------------
@@ -40,3 +46,8 @@ The following directives are available:
     .. lua:autoclass:: pl.List
 
     .. lua:automodule:: pl.stringx
+
+
+You can also use directove provided by ``sphinxcontrib.luadomain``:
+
+https://github.com/boolangery/sphinx-luadomain#available-sphinx-directives
