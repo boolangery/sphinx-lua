@@ -69,7 +69,7 @@ class LuaRenderer(object):
         """
         raise NotImplementedError()
 
-    def rst(self, partial_path, model):
+    def rst(self, args_dict):
         """Return rendered RST about an entity with the given name and doclet."""
 
         def process_link(s):
@@ -80,7 +80,7 @@ class LuaRenderer(object):
         env = Environment(loader=PackageLoader('sphinx_lua', 'templates'))
         env.filters['process_link'] = process_link
         template = env.get_template(self._template)
-        return template.render(**self._template_vars(partial_path, model))
+        return template.render(**args_dict)
 
     def _name(self):
         """Return the LUA function or class longname."""
@@ -109,21 +109,9 @@ class LuaRenderer(object):
 class AutoFunctionRenderer(LuaRenderer):
     _template = 'function.rst'
 
-    def _template_vars(self, name, model):
-        return dict(
-            name=name,
-            model=model
-        )
-
 
 class AutoClassRenderer(LuaRenderer):
     _template = 'class.rst'
-
-    def _template_vars(self, name, model):
-        return dict(
-            name=name,
-            model=model
-        )
 
     def rst_nodes(self):
         """Render into RST nodes a thing shaped like a function, having a name
@@ -145,7 +133,10 @@ class AutoClassRenderer(LuaRenderer):
             raise SphinxError('No LUADoc documentation was found for object "%s" or any path ending with that.'
                               % self._partial_path)
 
-        rst = self.rst(self._partial_path, lua_class)
+        rst = self.rst(dict(
+            name=self._partial_path,
+            model=lua_class
+        ))
         doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
 
         RstParser().parse(rst, doc)
@@ -154,12 +145,6 @@ class AutoClassRenderer(LuaRenderer):
 
 class AutoModuleRenderer(LuaRenderer):
     _template = 'module.rst'
-
-    def _template_vars(self, name, module):
-        return dict(
-            name=name,
-            module=module
-        )
 
     def rst_nodes(self):
         """Render into RST nodes a thing shaped like a function, having a name
@@ -180,7 +165,10 @@ class AutoModuleRenderer(LuaRenderer):
             raise SphinxError('No LUADoc documentation was found for object "%s" or any path ending with that.'
                               % self._partial_path)
 
-        rst = self.rst(self._partial_path, lua_module)
+        rst = self.rst(dict(
+            name=self._partial_path,
+            module=lua_module
+        ))
         doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
 
         RstParser().parse(rst, doc)
@@ -189,12 +177,6 @@ class AutoModuleRenderer(LuaRenderer):
 
 class AutoClassSummaryRenderer(LuaRenderer):
     _template = 'classsummary.rst'
-
-    def _template_vars(self, name, module):
-        return dict(
-            name=name,
-            model=module
-        )
 
     def rst_nodes(self):
         """Render into RST nodes a thing shaped like a function, having a name
@@ -213,8 +195,10 @@ class AutoClassSummaryRenderer(LuaRenderer):
                 if re.match(pattern, cls.name):
                     lua_classes.append(cls)
 
-        rst = self.rst(self._partial_path, lua_classes)
-
+        rst = self.rst(dict(
+            name=self._partial_path,
+            model=lua_classes
+        ))
 
         doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
 
