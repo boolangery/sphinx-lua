@@ -55,7 +55,8 @@ def auto_class_directive_bound_to_app(app):
             'members': lambda members: ([m.strip() for m in members.split(',')]
                                         if members else []),
             'exclude-members': _members_to_exclude,
-            'private-members': flag})
+            'private-members': flag,
+            'show-source': flag})
 
         def run(self):
             return AutoClassRenderer.from_directive(self, app).rst_nodes()

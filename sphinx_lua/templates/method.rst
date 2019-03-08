@@ -55,4 +55,12 @@
     {{ method.usage|indent(4) }}
 {% endif %}
 
+{% if 'show-source' in options %}
+.. container:: toggle
+
+    .. literalinclude:: {{ file_path }}
+        :language: lua
+        :lines: {{ method|start_stop_line(file_path) }}
+
+{% endif %}
 {%- endfilter %}

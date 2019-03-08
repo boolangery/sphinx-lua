@@ -1,5 +1,6 @@
+###############################################################################
 sphinx-lua
-===============================================================================
+###############################################################################
 
 .. image:: https://img.shields.io/pypi/v/sphinx-lua.svg
     :target: https://pypi.python.org/pypi/sphinx-lua/
@@ -14,7 +15,7 @@ compatible with some `ldoc <https://stevedonovan.github.io/ldoc/manual/doc.md.ht
 
 
 Installation
--------------------------------------------------------------------------------
+===============================================================================
 
 .. code-block:: bash
 
@@ -28,7 +29,7 @@ Dependencies:
 
 
 Sphinx integration
--------------------------------------------------------------------------------
+===============================================================================
 
 Add the following to your conf.py:
 
@@ -65,7 +66,7 @@ You can autodoc it in sphinx with the following directive:
 
 
 Troubleshooting
--------------------------------------------------------------------------------
+===============================================================================
 
 Sphinx-lua use the documentation model extracted from luadoc (https://github.com/boolangery/py-lua-doc)
 
@@ -77,7 +78,7 @@ So you can print this model out using the command line tool:
 
 
 Available sphinx directives
--------------------------------------------------------------------------------
+===============================================================================
 
 The following directives are available:
 
@@ -93,3 +94,14 @@ The following directives are available:
 You can also use directive provided by ``sphinxcontrib.luadomain``:
 
 https://github.com/boolangery/sphinx-luadomain#available-sphinx-directives
+
+
+Showing original source code
+-------------------------------------------------------------------------------
+
+You can display method source code appending the flag ``show-source``:
+
+.. code-block:: rst
+
+    .. lua:autoclass:: pl.List
+        :show-source:

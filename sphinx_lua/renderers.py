@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from json import dumps
 import re
+import os
 
 from docutils.parsers.rst import Parser as RstParser
 from docutils.statemachine import StringList
@@ -76,9 +77,18 @@ class LuaRenderer(object):
             """A non-optimal implementation of a regex filter"""
             return re.sub(r'@{\s*([\w.]*)\s*}', r':lua:class:`\1`', s)
 
+        def start_stop_line(doc_node, file_path):
+            """ Return start stop line in the form '1-5' """
+            file = open(os.path.join(self._app.confdir, file_path), "r")
+            start_line = file.read(doc_node.start_char).count('\n') + 1
+            stop_line = file.read(doc_node.stop_char - doc_node.start_char).count('\n') + 1 + start_line
+            file.close()
+            return str(start_line) + "-" + str(stop_line)
+
         # Render to RST using Jinja:
         env = Environment(loader=PackageLoader('sphinx_lua', 'templates'))
         env.filters['process_link'] = process_link
+        env.filters['start_stop_line'] = start_stop_line
         template = env.get_template(self._template)
         return template.render(**args_dict)
 
@@ -121,12 +131,14 @@ class AutoClassRenderer(LuaRenderer):
 
         """
         lua_class = None
+        module = None
 
         # lookup for class
-        for module in self._app._sphinxlua_modules:
-            for cls in module.classes:
+        for mod in self._app._sphinxlua_modules:
+            for cls in mod.classes:
                 if cls.name == self._partial_path:
                     lua_class = cls
+                    module = mod
                     break
 
         if not lua_class:
@@ -135,7 +147,9 @@ class AutoClassRenderer(LuaRenderer):
 
         rst = self.rst(dict(
             name=self._partial_path,
-            model=lua_class
+            model=lua_class,
+            file_path=os.path.relpath(module.file_path, self._app.confdir),
+            options=self._options
         ))
         doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
 
@@ -197,7 +211,7 @@ class AutoClassSummaryRenderer(LuaRenderer):
 
         rst = self.rst(dict(
             name=self._partial_path,
-            model=lua_classes
+            model=lua_classes,
         ))
 
         doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
