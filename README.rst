@@ -36,8 +36,9 @@ Add the following to your conf.py:
 .. code-block:: python
 
     extensions = [
-        'sphinx_lua', 
-        'sphinxcontrib.luadomain']
+        'sphinxcontrib.luadomain', 
+        'sphinx_lua'
+        ]
         
     # a list of lua source root    
     lua_source_path = ["../src/lua"]  # default is "./"
