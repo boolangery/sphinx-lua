@@ -8,7 +8,6 @@ except ImportError:
 from io import open
 from setuptools import setup, find_packages
 
-
 setup(
     name='sphinx-lua',
     version='1.1.3',
@@ -17,6 +16,7 @@ setup(
     author='Eliott Dumeix',
     author_email='eliott.dumeix@gmail.com',
     license='MIT',
+    license_files=('LICENSE.txt',),
     packages=find_packages(exclude=['ez_setup']),
     test_suite='nose.collector',
     include_package_data=True,
@@ -25,7 +25,7 @@ setup(
         'Jinja2>3.0',
         'luadoc>=1.1.1',
         'sphinxcontrib-luadomain>=1.1.1'
-        ],
+    ],
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
@@ -35,6 +35,6 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Topic :: Documentation :: Sphinx',
         'Topic :: Software Development :: Documentation'
-        ],
+    ],
     keywords=['sphinx', 'documentation', 'docs', 'lua', 'luadoc', 'restructured'],
 )
