@@ -6,3 +6,6 @@
 sphinx_js.egg-info/
 __pycache__/
 *.pyc
+.idea
+sphinx_lua.egg-info
+sphinx_lua/test/build/

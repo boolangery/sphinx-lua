@@ -1,0 +1,1 @@
+.. lua:autoclass:: MyOrg.Car
