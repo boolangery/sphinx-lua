@@ -23,8 +23,14 @@ def run_luadoc(app):
                         filepath = os.path.join(root, filename)
                         filenames.append(filepath)
 
+        options = DocOptions()
+        options.encoding = app.config.lua_source_encoding
+        options.comment_prefix = app.config.lua_source_comment_prefix
+        options.emmy_lua_syntax = app.config.lua_source_use_emmy_lua_syntax
+        options.private_prefix = app.config.lua_source_private_prefix
+
         # build model for files
-        model = FilesProcessor(8, DocOptions()).run(filenames)
+        model = FilesProcessor(8, options).run(filenames)
         modules.extend(model)
 
     app._sphinxlua_modules = modules

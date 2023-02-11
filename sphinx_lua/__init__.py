@@ -28,6 +28,10 @@ def setup(app):
     # TODO: We could add a lua:module with app.add_directive_to_domain().
 
     app.add_config_value('lua_source_path', ['./'], 'env')
+    app.add_config_value('lua_source_encoding', 'utf8', 'env')
+    app.add_config_value('lua_source_comment_prefix', '---', 'env')
+    app.add_config_value('lua_source_use_emmy_lua_syntax', True, 'env')
+    app.add_config_value('lua_source_private_prefix', '_', 'env')
     app.add_config_value('luadoc_config_path', None, 'env')
 
 
