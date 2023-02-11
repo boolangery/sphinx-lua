@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='sphinx-lua',
-    version='1.1.3',
+    version='1.1.4',
     description='Support for using Sphinx on Luadoc-documented Lua code',
     long_description=open('README.rst', 'r', encoding='utf8').read(),
     author='Eliott Dumeix',
