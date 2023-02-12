@@ -1,1 +1,3 @@
-.. lua:autoclass:: MyOrg.Car
+.. lua:autoclass:: Class
+    :show-source:
+    :private-members:

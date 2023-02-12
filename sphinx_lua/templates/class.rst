@@ -26,17 +26,19 @@
 
 {# display class field #}
 {% for field in model.fields -%}
+{%- if field.visibility == "public" or 'private-members' in options %}
 {%- with type=field.type -%}
 .. lua:attribute:: {{ field.name }}: {% include "type.rst" %}
 
     {{ field.desc }}
 
 {% endwith -%}
+{%- endif %}
 {%- endfor %}
 
 {# display public methods first #}
 {%- for method in model.methods -%}
-{%- if method.visibility == "public" %}
+{%- if method.visibility == "public" or 'private-members' in options %}
 {% include "method.rst" %}
 {%- endif %}
 {%- endfor %}

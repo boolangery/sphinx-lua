@@ -111,3 +111,14 @@ You can display method source code appending the flag ``show-source``:
 
     .. lua:autoclass:: pl.List
         :show-source:
+
+
+Showing private members
+-------------------------------------------------------------------------------
+
+By default, private members are hidden. You can display them by using the flag ``private-members``:
+
+.. code-block:: rst
+
+    .. lua:autoclass:: pl.List
+        :private-members:
