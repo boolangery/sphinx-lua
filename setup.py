@@ -8,9 +8,18 @@ except ImportError:
 from io import open
 from setuptools import setup, find_packages
 
+ver_dic = {}
+version_file = open("sphinx_lua/version.py")
+try:
+    version_file_contents = version_file.read()
+finally:
+    version_file.close()
+
+exec(compile(version_file_contents, "sphinx_lua/version.py", 'exec'), ver_dic)
+
 setup(
     name='sphinx-lua',
-    version='1.1.4',
+    version=ver_dic["__version__"],
     description='Support for using Sphinx on Luadoc-documented Lua code',
     long_description=open('README.rst', 'r', encoding='utf8').read(),
     author='Eliott Dumeix',
