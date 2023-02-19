@@ -19,7 +19,7 @@ def run_luadoc(app):
         else:
             for root, subdirs, files in os.walk(source_dir):
                 for filename in files:
-                    if filename.endswith('lua'):
+                    if filename.endswith(('lua', 'luadoc')):
                         filepath = os.path.join(root, filename)
                         filenames.append(filepath)
 
