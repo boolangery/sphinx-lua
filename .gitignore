@@ -9,3 +9,4 @@ __pycache__/
 .idea
 sphinx_lua.egg-info
 sphinx_lua/test/build/
+_build/

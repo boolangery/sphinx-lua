@@ -79,10 +79,14 @@ class LuaRenderer(object):
 
         def start_stop_line(doc_node, file_path):
             """ Return start stop line in the form '1-5' """
-            file = open(os.path.join(self._app.confdir, file_path), "r")
-            start_line = file.read(doc_node.start_char).count('\n') + 1
-            stop_line = file.read(doc_node.stop_char - doc_node.start_char).count('\n') + 1 + start_line
-            file.close()
+            file_path = os.path.join(self._app.confdir, file_path)
+            with open(file_path, "r") as f:
+                content = f.read()
+            total_lines = content.count('\n') + 1
+            start_line = content[:doc_node.start_char].count('\n') + 1
+            stop_line = content[:doc_node.stop_char].count('\n') + 1
+            # Clamp to actual file line count (avoid "out of range" with Sphinx -W)
+            stop_line = min(stop_line, total_lines)
             return str(start_line) + "-" + str(stop_line)
 
         # Render to RST using Jinja:
