@@ -1,4 +1,6 @@
-{%- if method.is_static -%}
+{%- if method.name is metamethod -%}
+.. lua:metamethod::
+{%- elif method.is_static -%}
 .. lua:staticmethod::
 {%- else -%}
 .. lua:method::

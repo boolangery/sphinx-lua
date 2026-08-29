@@ -27,3 +27,11 @@ end
 function cls:_more_private()
     self._some_private_field = self._some_private_field .. "private"
 end
+
+---Compare two instances for equality.
+---@param self Class
+---@param other Class
+---@return boolean
+function cls.__eq(self, other)
+    return self.some_public_field == other.some_public_field
+end

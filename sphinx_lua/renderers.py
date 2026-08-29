@@ -15,6 +15,17 @@ from sphinx.util import logging
 
 logger = logging.getLogger(__name__)
 
+# Mirrors sphinxcontrib.luadomain.KNOWN_LUA_METAMETHODS (Lua 5.4 manual,
+# section 2.4). Must stay in sync: luadomain's lua:metamethod directive warns
+# (an error under -W) on any name outside this list.
+KNOWN_LUA_METAMETHODS = frozenset([
+    '__add', '__sub', '__mul', '__div', '__mod', '__pow', '__unm', '__idiv',
+    '__band', '__bor', '__bxor', '__bnot', '__shl', '__shr',
+    '__concat', '__len', '__eq', '__lt', '__le',
+    '__index', '__newindex', '__call',
+    '__gc', '__close', '__mode', '__name',
+])
+
 
 class LuaRenderer(object):
     """Abstract superclass for renderers of various sphinx-lua directives
@@ -126,6 +137,7 @@ class LuaRenderer(object):
         env.filters['link_custom_type'] = link_custom_type
         env.filters['render_code_fences'] = render_code_fences
         env.filters['start_stop_line'] = start_stop_line
+        env.tests['metamethod'] = lambda name: name in KNOWN_LUA_METAMETHODS
         template = env.get_template(self._template)
         return template.render(**args_dict)
 

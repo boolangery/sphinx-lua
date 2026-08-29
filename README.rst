@@ -122,6 +122,20 @@ turned into a link to its definition:
     end
 
 
+A method whose name is a known Lua metamethod (``__index``, ``__eq``,
+``__call``, etc., per the Lua 5.4 manual) is automatically rendered with
+``lua:metamethod`` instead of ``lua:method``:
+
+.. code-block:: lua
+
+    ---Compare two instances for equality.
+    ---@param self Class
+    ---@param other Class
+    ---@return boolean
+    function cls.__eq(self, other)
+    end
+
+
 Markdown-style fenced code blocks (as commonly used in EmmyLua doc comments)
 in descriptions are rendered as proper, syntax-highlighted code blocks:
 
