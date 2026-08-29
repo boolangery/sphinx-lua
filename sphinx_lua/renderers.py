@@ -77,6 +77,22 @@ class LuaRenderer(object):
             """A non-optimal implementation of a regex filter"""
             return re.sub(r'@{\s*([\w.]*)\s*}', r':lua:class:`\1`', s)
 
+        def link_custom_type(name):
+            """Turn a custom type name into a cross-reference if it matches a
+            known class or alias, so params/returns using ``@alias``-defined
+            types link to their definition. Falls back to plain text for
+            unknown names to avoid emitting dangling cross-references.
+
+            """
+            for module in getattr(self._app, '_sphinxlua_modules', []):
+                for alias in getattr(module, 'aliases', []):
+                    if alias.name == name:
+                        return ':lua:alias:`%s`' % name
+                for cls in module.classes:
+                    if cls.name == name:
+                        return ':lua:class:`%s`' % name
+            return name
+
         def start_stop_line(doc_node, file_path):
             """ Return start stop line in the form '1-5' """
             file_path = os.path.join(self._app.confdir, file_path)
@@ -92,6 +108,7 @@ class LuaRenderer(object):
         # Render to RST using Jinja:
         env = Environment(loader=PackageLoader('sphinx_lua', 'templates'))
         env.filters['process_link'] = process_link
+        env.filters['link_custom_type'] = link_custom_type
         env.filters['start_stop_line'] = start_stop_line
         template = env.get_template(self._template)
         return template.render(**args_dict)
@@ -155,6 +172,30 @@ class AutoClassRenderer(LuaRenderer):
             file_path=os.path.relpath(module.file_path, self._app.confdir),
             options=self._options
         ))
+        doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
+
+        RstParser().parse(rst, doc)
+        return doc.children
+
+
+class AutoAliasRenderer(LuaRenderer):
+    _template = 'alias.rst'
+
+    def rst_nodes(self):
+        """Render an ``@alias``-declared type as a ``lua:alias`` directive."""
+        lua_alias = None
+
+        for module in self._app._sphinxlua_modules:
+            for alias in getattr(module, 'aliases', []):
+                if alias.name == self._partial_path:
+                    lua_alias = alias
+                    break
+
+        if not lua_alias:
+            raise SphinxError('No LUADoc documentation was found for object "%s" or any path ending with that.'
+                              % self._partial_path)
+
+        rst = self.rst(dict(model=lua_alias))
         doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
 
         RstParser().parse(rst, doc)

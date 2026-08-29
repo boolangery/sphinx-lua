@@ -17,7 +17,7 @@
 {%- elif type.id == "nil" -%}
     nil
 {%- elif type.id == "custom" -%}
-    {{ type.name }}
+    {{ type.name|link_custom_type }}
 {%- elif type.id == "or" -%}
 {% for type in type.types -%}
 {% include "type.rst" %}{{ " or " if not loop.last }}

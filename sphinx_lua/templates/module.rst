@@ -13,6 +13,12 @@
     {{ module.usage|indent(4) }}
 {%- endif %}
 
+{% for alias in module.aliases %}
+{% with model=alias %}
+{% include "alias.rst" %}
+{% endwith %}
+{% endfor %}
+
 {% for function in module.functions %}
 {% include "function.rst" %}
 {% endfor %}

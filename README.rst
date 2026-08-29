@@ -96,6 +96,8 @@ The following directives are available:
 
     .. lua:autoclasssummary:: ^pl.
 
+    .. lua:autoalias:: SourceFn
+
 
 ``automodule`` also accepts a regex, documenting every matching module in one
 call, which is handy to generate the whole documentation for everything found
@@ -104,6 +106,20 @@ in ``lua_source_path``:
 .. code-block:: rst
 
     .. lua:automodule:: .*
+
+
+``@alias`` tags are rendered as ``lua:alias`` directives (either standalone via
+``autoalias``, or automatically as part of ``automodule``'s output), and any
+``@param``/``@return``/``@field`` referencing an alias or class by name is
+turned into a link to its definition:
+
+.. code-block:: lua
+
+    ---@alias SourceFn fun():string|nil,string|nil
+
+    ---@param callback SourceFn
+    local function some_function(callback)
+    end
 
 
 You can also use directive provided by ``sphinxcontrib.luadomain``:
