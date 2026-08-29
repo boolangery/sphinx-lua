@@ -10,6 +10,10 @@ def run_luadoc(app):
 
     modules = []
     for source_dir in app.config.lua_source_path:
+        # Resolve relative to confdir, not the process cwd: the build can be
+        # invoked from anywhere (e.g. `sphinx-build docs docs/_build` from a
+        # repo root, or programmatically), not just from inside confdir.
+        source_dir = os.path.join(app.confdir, source_dir)
         logger.debug('building lua documentation model for source dir: ' + source_dir)
 
         filenames = []

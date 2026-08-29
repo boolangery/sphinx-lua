@@ -1,5 +1,7 @@
 .. lua:function::
 {{- " " + function.name }}({%- include "param_list.rst" %})
+    {# reset stale module context when rendered outside automodule -#}
+    {% if not module %}:module:{%- endif %}
 {%- filter indent(width=4) %}
 
 {% if function.short_desc -%}

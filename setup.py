@@ -27,13 +27,15 @@ setup(
     license='MIT',
     license_files=('LICENSE.txt',),
     packages=find_packages(exclude=['ez_setup']),
-    test_suite='nose.collector',
     include_package_data=True,
     install_requires=[
         'Jinja2>3.0',
         'luadoc>=1.4.1',
         'sphinxcontrib-luadomain>=1.2.0'
     ],
+    extras_require={
+        'test': ['pytest', 'Sphinx'],
+    },
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
