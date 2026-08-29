@@ -30,7 +30,6 @@ setup(
     test_suite='nose.collector',
     include_package_data=True,
     install_requires=[
-        'six',
         'Jinja2>3.0',
         'luadoc>=1.4.1',
         'sphinxcontrib-luadomain>=1.2.0'

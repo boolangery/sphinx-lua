@@ -1,5 +1,3 @@
-from collections import OrderedDict
-from json import dumps
 import re
 import os
 
@@ -7,9 +5,7 @@ from docutils.parsers.rst import Parser as RstParser
 from docutils.statemachine import StringList
 from docutils.utils import new_document
 from jinja2 import Environment, PackageLoader
-from six import iteritems, string_types
 from sphinx.errors import SphinxError
-from sphinx.util import rst
 
 from sphinx.util import logging
 
@@ -140,30 +136,6 @@ class LuaRenderer(object):
         env.tests['metamethod'] = lambda name: name in KNOWN_LUA_METAMETHODS
         template = env.get_template(self._template)
         return template.render(**args_dict)
-
-    def _name(self):
-        """Return the LUA function or class longname."""
-        return self._arguments[0].split('(')[0]
-
-    def _fields(self, doclet):
-        """Return an iterable of "info fields" to be included in the directive,
-        like params, return values, and exceptions.
-
-        Each field consists of a tuple ``(heads, tail)``, where heads are
-        words that go between colons (as in ``:param string href:``) and
-        tail comes after.
-
-        """
-        FIELD_TYPES = OrderedDict([('params', _params_formatter),
-                                   ('properties', _params_formatter),
-                                   ('exceptions', _exceptions_formatter),
-                                   ('returns', _returns_formatter)])
-        for field_name, callback in iteritems(FIELD_TYPES):
-            for field in doclet.get(field_name, []):
-                description = field.get('description', '')
-                unwrapped = re.sub(r'[ \t]*[\r\n]+[ \t]*', ' ', description)
-                yield callback(field, unwrapped)
-
 
 class AutoFunctionRenderer(LuaRenderer):
     _template = 'function.rst'
@@ -315,50 +287,3 @@ class AutoClassSummaryRenderer(LuaRenderer):
 
         RstParser().parse(rst, doc)
         return doc.children
-
-
-def _returns_formatter(field, description):
-    """Derive heads and tail from ``@returns`` blocks."""
-    types = _or_types(field)
-    tail = ('**%s** -- ' % types) if types else ''
-    tail += description
-    return ['returns'], tail
-
-
-def _params_formatter(field, description):
-    """Derive heads and tail from ``@param`` blocks."""
-    heads = ['param']
-    types = _or_types(field)
-    if types:
-        heads.append(types)
-    heads.append(rst.escape(field['name']))
-    tail = description
-    return heads, tail
-
-
-def _exceptions_formatter(field, description):
-    """Derive heads and tail from ``@throws`` blocks."""
-    heads = ['throws']
-    types = _or_types(field)
-    if types:
-        heads.append(types)
-    tail = description
-    return heads, tail
-
-
-def _or_types(field):
-    """Return all the types in a doclet subfield like "params" or "returns"
-    with vertical bars between them, like "number|string".
-
-    ReST-escape the types.
-
-    """
-    return rst.escape('|'.join(field.get('type', {}).get('names', [])))
-
-
-def _dotted_path(segments):
-    """Convert a LUA object path (``['dir/', 'file/', 'class#',
-    'instanceMethod']``) to a dotted style that Sphinx will better index."""
-    segments_without_separators = [s[:-1] for s in segments[:-1]]
-    segments_without_separators.append(segments[-1])
-    return '.'.join(segments_without_separators)
