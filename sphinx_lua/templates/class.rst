@@ -10,10 +10,10 @@
 {%- filter indent(width=4) %}
 
 {% if model.short_desc -%}
-{{ model.short_desc | process_link }}
+{{ model.short_desc | render_code_fences | process_link }}
 {% endif %}
 {% if model.desc -%}
-{{ model.desc | process_link }}
+{{ model.desc | render_code_fences | process_link }}
 {%- endif %}
 {% if model.usage %}
 **Usage:**

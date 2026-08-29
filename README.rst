@@ -122,6 +122,20 @@ turned into a link to its definition:
     end
 
 
+Markdown-style fenced code blocks (as commonly used in EmmyLua doc comments)
+in descriptions are rendered as proper, syntax-highlighted code blocks:
+
+.. code-block:: lua
+
+    ---Returns 16-bit color.
+    ---
+    ---Example:
+    ---```lua
+    ---local color = display.color565(255, 0, 0)
+    ---```
+    function display.color565(r, g, b) end
+
+
 You can also use directive provided by ``sphinxcontrib.luadomain``:
 
 https://github.com/boolangery/sphinx-luadomain#available-sphinx-directives

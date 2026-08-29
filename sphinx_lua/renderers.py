@@ -77,6 +77,21 @@ class LuaRenderer(object):
             """A non-optimal implementation of a regex filter"""
             return re.sub(r'@{\s*([\w.]*)\s*}', r':lua:class:`\1`', s)
 
+        def render_code_fences(s):
+            """Turn Markdown fenced code blocks (```lang\\ncode\\n```), as
+            commonly found in EmmyLua doc comments, into RST code-block
+            directives so they render instead of showing up as literal text.
+
+            """
+            def repl(match):
+                language = match.group(1) or 'lua'
+                code = match.group(2)
+                indented = '\n'.join('    ' + line if line.strip() else ''
+                                     for line in code.splitlines())
+                return '\n\n.. code-block:: %s\n\n%s\n\n' % (language, indented)
+
+            return re.sub(r'```(\w*)\n(.*?)```', repl, s, flags=re.DOTALL)
+
         def link_custom_type(name):
             """Turn a custom type name into a cross-reference if it matches a
             known class or alias, so params/returns using ``@alias``-defined
@@ -109,6 +124,7 @@ class LuaRenderer(object):
         env = Environment(loader=PackageLoader('sphinx_lua', 'templates'))
         env.filters['process_link'] = process_link
         env.filters['link_custom_type'] = link_custom_type
+        env.filters['render_code_fences'] = render_code_fences
         env.filters['start_stop_line'] = start_stop_line
         template = env.get_template(self._template)
         return template.render(**args_dict)

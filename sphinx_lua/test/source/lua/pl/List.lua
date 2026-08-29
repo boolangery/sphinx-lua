@@ -14,6 +14,11 @@ function cls.new()
 end
 
 ---Append the public field with `public`
+---
+---Example:
+---```lua
+---list:more_public()
+---```
 function cls:more_public()
     self.some_public_field = self.some_public_field .. "public"
 end
