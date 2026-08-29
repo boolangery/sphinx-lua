@@ -156,6 +156,26 @@ class LuaRenderer(object):
 class AutoFunctionRenderer(LuaRenderer):
     _template = 'function.rst'
 
+    def rst_nodes(self):
+        """Render a global (non-method, non-static) LUA function."""
+        lua_function = None
+
+        for module in self._app._sphinxlua_modules:
+            for func in module.functions:
+                if func.name == self._partial_path:
+                    lua_function = func
+                    break
+
+        if not lua_function:
+            raise SphinxError('No LUADoc documentation was found for object "%s" or any path ending with that.'
+                              % self._partial_path)
+
+        rst = self.rst(dict(function=lua_function))
+        doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
+
+        RstParser().parse(rst, doc)
+        return doc.children
+
 
 class AutoClassRenderer(LuaRenderer):
     _template = 'class.rst'

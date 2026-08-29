@@ -3,3 +3,5 @@
     :private-members:
 
 .. lua:automodule:: pl\..*
+
+.. lua:autofunction:: greet
