@@ -28,3 +28,8 @@ jobs:
       run: |
         cd sphinx_lua/test
         sphinx-build -b html -W . _build
+    - name: Build Sphinx test project (parallel)
+      run: |
+        cd sphinx_lua/test
+        rm -rf _build
+        sphinx-build -b html -W -j auto . _build

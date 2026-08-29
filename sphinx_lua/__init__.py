@@ -4,6 +4,7 @@ from .directives import (auto_class_directive_bound_to_app,
                          auto_class_summary_directive_bound_to_app,
                          auto_alias_directive_bound_to_app)
 from .luadoc import run_luadoc
+from . import version
 
 
 def setup(app):
@@ -37,6 +38,12 @@ def setup(app):
     app.add_config_value('lua_source_use_emmy_lua_syntax', True, 'env')
     app.add_config_value('lua_source_private_prefix', '_', 'env')
     app.add_config_value('luadoc_config_path', None, 'env')
+
+    return {
+        'version': version.__version__,
+        'parallel_read_safe': True,
+        'parallel_write_safe': True,
+    }
 
 
 def read_all_docs(app, env, doc_names):
