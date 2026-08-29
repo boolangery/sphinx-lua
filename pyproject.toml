@@ -1,0 +1,7 @@
+[build-system]
+# setuptools>=70 emits Metadata-Version 2.4, which the pypa/gh-action-pypi-publish
+# release action (pinned in .github/workflows/python-publish.yml) fails to parse
+# ("Metadata is missing required fields: Name, Version") even though it is
+# present -- it's a parser mismatch, not actually missing metadata.
+requires = ["setuptools>=61,<70", "wheel"]
+build-backend = "setuptools.build_meta"
