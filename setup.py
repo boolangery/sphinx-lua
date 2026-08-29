@@ -33,7 +33,7 @@ setup(
         'six',
         'Jinja2>3.0',
         'luadoc>=1.4.1',
-        'sphinxcontrib-luadomain>=1.1.1'
+        'sphinxcontrib-luadomain>=1.2.0'
     ],
     classifiers=[
         'Intended Audience :: Developers',
