@@ -32,7 +32,7 @@ setup(
     install_requires=[
         'six',
         'Jinja2>3.0',
-        'luadoc>=1.4.0',
+        'luadoc>=1.4.1',
         'sphinxcontrib-luadomain>=1.1.1'
     ],
     classifiers=[
