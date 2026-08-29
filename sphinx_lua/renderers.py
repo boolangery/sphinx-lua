@@ -170,25 +170,29 @@ class AutoModuleRenderer(LuaRenderer):
 
         Fill in args, docstrings, and info fields from stored LUADoc output.
 
+        An exact module name is looked up first. If none matches, the argument
+        is treated as a regex pattern and every module whose name matches it is
+        rendered, allowing e.g. ``.. lua:automodule:: .*`` to document every
+        module found in ``lua_source_path`` in one shot.
+
         """
-        lua_module = None
+        all_modules = self._app._sphinxlua_modules
 
-        # lookup for class
-        for module in self._app._sphinxlua_modules:
-            if module.name == self._partial_path:
-                lua_module = module
-                break
+        lua_modules = [m for m in all_modules if m.name == self._partial_path]
 
-        if not lua_module:
+        if not lua_modules:
+            pattern = re.compile(self._partial_path)
+            lua_modules = [m for m in all_modules if pattern.match(m.name)]
+
+        if not lua_modules:
             raise SphinxError('No LUADoc documentation was found for object "%s" or any path ending with that.'
                               % self._partial_path)
 
-        rst = self.rst(dict(
-            name=self._partial_path,
-            module=lua_module
-        ))
-        doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
+        rst = '\n\n'.join(
+            self.rst(dict(name=lua_module.name, module=lua_module))
+            for lua_module in sorted(lua_modules, key=lambda m: m.name))
 
+        doc = new_document('%s' % self._partial_path, settings=self._directive.state.document.settings)
         RstParser().parse(rst, doc)
         return doc.children
 

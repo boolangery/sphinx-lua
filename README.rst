@@ -97,6 +97,15 @@ The following directives are available:
     .. lua:autoclasssummary:: ^pl.
 
 
+``automodule`` also accepts a regex, documenting every matching module in one
+call, which is handy to generate the whole documentation for everything found
+in ``lua_source_path``:
+
+.. code-block:: rst
+
+    .. lua:automodule:: .*
+
+
 You can also use directive provided by ``sphinxcontrib.luadomain``:
 
 https://github.com/boolangery/sphinx-luadomain#available-sphinx-directives
